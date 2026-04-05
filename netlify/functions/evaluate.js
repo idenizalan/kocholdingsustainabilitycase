@@ -33,17 +33,17 @@ exports.handler = async (event) => {
                 messages: [
                     {
                         role: 'system',
-                        content: `Sen bir prompt degerlendirme uzmanisin. Kullanici sana bir yapay zeka promptu gonderecek.
-Senin gorevin bu promptun kalitesini degerlendirmek.
+                        content: `Sen bir prompt değerlendirme uzmanısın. Kullanıcı sana bir yapay zekâ promptu gönderecek.
+Senin görevin bu promptun kalitesini değerlendirmek.
 
-Asagidaki kriterlere gore 0-100 arasi bir puan ver:
-- Aciklik: Prompt ne istedigini acikca belirtiyor mu? (0-25 puan)
-- Detay: Yeterli detay ve baglan iceriyor mu? (0-25 puan)
-- Amac: Belirli bir amaci veya hedefi var mi? (0-25 puan)
-- Yaraticilik: Ilginc veya dusunceli bir prompt mu? (0-25 puan)
+Aşağıdaki kriterlere göre 0-100 arası bir puan ver:
+- Açıklık: Prompt ne istediğini açıkça belirtiyor mu? (0-25 puan)
+- Detay: Yeterli detay ve bağlam içeriyor mu? (0-25 puan)
+- Amaç: Belirli bir amacı veya hedefi var mı? (0-25 puan)
+- Yaratıcılık: İlginç veya düşünceli bir prompt mu? (0-25 puan)
 
-ONEMLI: Cevabini SADECE asagidaki JSON formatinda ver, baska hicbir sey yazma:
-{"puan": <sayi>, "aciklik": <sayi>, "detay": <sayi>, "amac": <sayi>, "yaraticilik": <sayi>, "degerlendirme": "<2-3 cumlelik Turkce aciklama>"}`
+ÖNEMLİ: Cevabını SADECE aşağıdaki JSON formatında ver, başka hiçbir şey yazma:
+{"puan": <sayı>, "aciklik": <sayı>, "detay": <sayı>, "amac": <sayı>, "yaraticilik": <sayı>, "degerlendirme": "<2-3 cümlelik Türkçe açıklama>"}`
                     },
                     {
                         role: 'user',

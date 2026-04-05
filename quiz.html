@@ -21,7 +21,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
+            padding: 40px 0;
         }
 
         /* --- ANIMATED BACKGROUND --- */
@@ -823,8 +825,8 @@
             <h1>Yapay Zeka Quiz</h1>
             <p class="subtitle">Bilgini test et!</p>
             <canvas id="mock-video-canvas" width="620" height="350"></canvas>
-            <p id="video-subtitle">Introyu izle, sonra quiz'e basla!</p>
-            <button id="start-quiz-btn" class="btn-primary" onclick="startQuiz()">Quiz'e Basla</button>
+            <p id="video-subtitle">İntroyu izle, sonra quiz'e başla!</p>
+            <button id="start-quiz-btn" class="btn-primary" onclick="startQuiz()">Quiz'e Başla</button>
         </div>
 
         <!-- QUIZ SECTION -->
@@ -865,7 +867,7 @@
             <p class="score-text" id="threshold-text"></p>
             <div class="result-buttons">
                 <button id="retry-btn" class="btn-secondary" onclick="location.reload()">Tekrar Dene</button>
-                <button id="go-to-prompt-btn" class="btn-primary" onclick="goToPrompt()">Prompt Challange &rarr;</button>
+                <button id="go-to-prompt-btn" class="btn-primary" onclick="goToPrompt()">Prompt Challenge &rarr;</button>
             </div>
         </div>
 
@@ -873,12 +875,12 @@
         <div id="prompt-section">
             <h2>Prompt Challenge</h2>
             <p class="prompt-subtitle">
-                Ogrendigini goster! Asagiya bir yapay zeka promptu yaz.<br>
-                AI senin promptunu degerlendirip puan verecek.
+                Öğrendiğini göster! Aşağıya bir yapay zekâ promptu yaz.<br>
+                AI senin promptunu değerlendirip puan verecek.
             </p>
-            <textarea class="prompt-textarea" id="prompt-input" placeholder="Ornegin: Uzayda yasayan bir kedi hakkinda, cocuklara yonelik, egitici ve 200 kelimelik bir hikaye yaz..." oninput="updateCharCount()"></textarea>
+            <textarea class="prompt-textarea" id="prompt-input" placeholder="Örneğin: Uzayda yaşayan bir kedi hakkında, çocuklara yönelik, eğitici ve 200 kelimelik bir hikâye yaz..." oninput="updateCharCount()"></textarea>
             <div class="char-count"><span id="char-count">0</span> karakter</div>
-            <button id="evaluate-btn" class="btn-primary" onclick="evaluatePrompt()">Degerlendir</button>
+            <button id="evaluate-btn" class="btn-primary" onclick="evaluatePrompt()">Değerlendir</button>
             <div class="prompt-error" id="prompt-error"></div>
 
             <!-- Prompt AI Result -->
@@ -891,10 +893,10 @@
                     <span class="prompt-score-number" id="prompt-score-number">0</span>
                 </div>
                 <div class="prompt-score-label" id="prompt-score-label"></div>
-                <div class="ai-feedback-label">AI Degerlendirmesi</div>
+                <div class="ai-feedback-label">AI Değerlendirmesi</div>
                 <div class="ai-feedback" id="ai-feedback"></div>
-                <button id="prompt-retry-btn" class="btn-secondary" onclick="retryPrompt()">Baska Bir Prompt Dene</button>
-                <button id="see-final-btn" class="btn-primary" style="display:none; margin-top:14px;" onclick="showFinalResult()">Sonucu Gor &rarr;</button>
+                <button id="prompt-retry-btn" class="btn-secondary" onclick="retryPrompt()">Başka Bir Prompt Dene</button>
+                <button id="see-final-btn" class="btn-primary" style="display:none; margin-top:14px;" onclick="showFinalResult()">Sonucu Gör &rarr;</button>
             </div>
         </div>
 
@@ -908,9 +910,9 @@
                 <div class="final-status-item" id="final-prompt-status"></div>
             </div>
             <div id="apply-link-wrapper" style="display:none;">
-                <a id="apply-link" class="btn-apply" href="https://YOUR-FORM-LINK-HERE.com" target="_blank">Basvuru Formuna Git</a>
+                <a id="apply-link" class="btn-apply" href="https://YOUR-FORM-LINK-HERE.com" target="_blank">Başvuru Formuna Git</a>
             </div>
-            <button class="btn-secondary" style="margin-top:20px;" onclick="location.reload()">Basidan Basla</button>
+            <button class="btn-secondary" style="margin-top:20px;" onclick="location.reload()">Başından Başla</button>
         </div>
 
     </div>
@@ -931,64 +933,64 @@
 
         const questions = [
             {
-                question: "Yapay zeka nedir?",
-                options: ["Insan gibi dusunebilen bilgisayar programlari", "Sadece oyun oynayan makineler", "Sadece robotlar", "Internetsiz calisan bilgisayarlar"],
+                question: "Yapay zekâ nedir?",
+                options: ["İnsan gibi düşünebilen bilgisayar programları", "Sadece oyun oynayan makineler", "Sadece robotlar", "İnternetsiz çalışan bilgisayarlar"],
                 answer: 0,
-                explanation: "Yapay zeka, bilgisayarlarin ogrenme, dusunme ve karar verme gibi insan benzeri gorevleri yapabilmesidir."
+                explanation: "Yapay zekâ, bilgisayarların öğrenme, düşünme ve karar verme gibi insan benzeri görevleri yapabilmesidir."
             },
             {
-                question: "Asagidakilerden hangisi yapay zeka degildir?",
-                options: ["Sesli asistan (Siri, Alexa)", "YouTube onerileri", "Hesap makinesi", "ChatGPT"],
+                question: "Aşağıdakilerden hangisi yapay zekâ değildir?",
+                options: ["Sesli asistan (Siri, Alexa)", "YouTube önerileri", "Hesap makinesi", "ChatGPT"],
                 answer: 2,
-                explanation: "Hesap makinesi sadece verilen islemi yapar, ogrenmez veya tahmin uretmez."
+                explanation: "Hesap makinesi sadece verilen işlemi yapar, öğrenmez veya tahmin üretmez."
             },
             {
-                question: "Iyi bir prompt nedir?",
-                options: ["Kisa ve belirsiz soru", "Acik ve detayli istek", "Sadece tek kelime", "Hic soru sormamak"],
+                question: "İyi bir prompt nedir?",
+                options: ["Kısa ve belirsiz soru", "Açık ve detaylı istek", "Sadece tek kelime", "Hiç soru sormamak"],
                 answer: 1,
-                explanation: "Yapay zekaya ne istedigini acik soylersen daha iyi sonuc alirsin."
+                explanation: "Yapay zekâya ne istediğini açık söylersen daha iyi sonuç alırsın."
             },
             {
                 question: "Hangisi daha iyi bir prompttur?",
                 options: ["\"Hikaye yaz\"", "\"Kisa bir hikaye yaz\"", "\"Uzayda gecen, komik ve 100 kelimelik bir hikaye yaz\"", "\"Bir seyler yaz\""],
                 answer: 2,
-                explanation: "Detay eklemek sonucu daha kaliteli ve dogru hale getirir."
+                explanation: "Detay eklemek sonucu daha kaliteli ve doğru hale getirir."
             },
             {
-                question: "Yapay zeka hata yapabilir mi?",
-                options: ["Hayir, asla hata yapmaz", "Evet, bazen yanlis cevap verebilir", "Sadece matematikte hata yapar", "Sadece cocuklara hata yapar"],
+                question: "Yapay zekâ hata yapabilir mi?",
+                options: ["Hayır, asla hata yapmaz", "Evet, bazen yanlış cevap verebilir", "Sadece matematikte hata yapar", "Sadece çocuklara hata yapar"],
                 answer: 1,
-                explanation: "Yapay zeka her zaman dogru degildir, kontrol etmek gerekir."
+                explanation: "Yapay zekâ her zaman doğru değildir, kontrol etmek gerekir."
             },
             {
-                question: "Yapay zeka nasil ogrenir?",
-                options: ["Kitap okuyarak", "Insanlarin verdigi verilerle", "Uyuyarak", "Kendi kendine dogustan bilerek"],
+                question: "Yapay zekâ nasıl öğrenir?",
+                options: ["Kitap okuyarak", "İnsanların verdiği verilerle", "Uyuyarak", "Kendi kendine doğuştan bilerek"],
                 answer: 1,
-                explanation: "Yapay zeka, insanlarin sagladigi verilerle egitilir."
+                explanation: "Yapay zekâ, insanların sağladığı verilerle eğitilir."
             },
             {
-                question: "Kotu bir prompt hangisidir?",
+                question: "Kötü bir prompt hangisidir?",
                 options: ["\"5. sinif icin basit bir matematik sorusu olustur\"", "\"Turkiye'nin baskentini acikla\"", "\"Bir sey yap\"", "\"Kisa bir masal yaz\""],
                 answer: 2,
-                explanation: "Ne istedigin belli degilse yapay zeka da dogru cevap veremez."
+                explanation: "Ne istediğin belli değilse yapay zekâ da doğru cevap veremez."
             },
             {
-                question: "Yapay zeka neden bazen yanlis bilgi verir?",
-                options: ["Cunku uzgundur", "Cunku her seyi bilemez", "Cunku calismak istemez", "Cunku internet yoktur"],
+                question: "Yapay zekâ neden bazen yanlış bilgi verir?",
+                options: ["Çünkü üzgündür", "Çünkü her şeyi bilemez", "Çünkü çalışmak istemez", "Çünkü internet yoktur"],
                 answer: 1,
-                explanation: "Yapay zeka her bilgiyi %100 dogru bilemez ve bazen tahmin yapar."
+                explanation: "Yapay zekâ her bilgiyi %100 doğru bilemez ve bazen tahmin yapar."
             },
             {
-                question: "Hangisi iyi bir prompt ornegidir?",
+                question: "Hangisi iyi bir prompt örneğidir?",
                 options: ["\"Resim\"", "\"Bana hayvan ciz\"", "\"Mavi renkli, ucan bir ejderha resmi ciz\"", "\"Bir sey ciz\""],
                 answer: 2,
-                explanation: "Detayli tarif = daha dogru ve guzel sonuc."
+                explanation: "Detaylı tarif = daha doğru ve güzel sonuç."
             },
             {
-                question: "Yapay zekayi kullanirken ne yapmaliyiz?",
-                options: ["Her soyledigine inanmaliyiz", "Hic kullanmamaliyiz", "Sonuclari kontrol etmeliyiz", "Sadece oyun icin kullanmaliyiz"],
+                question: "Yapay zekâyı kullanırken ne yapmalıyız?",
+                options: ["Her söylediğine inanmalıyız", "Hiç kullanmamalıyız", "Sonuçları kontrol etmeliyiz", "Sadece oyun için kullanmalıyız"],
                 answer: 2,
-                explanation: "Yapay zeka yardimcidir ama kontrol etmek her zaman onemlidir."
+                explanation: "Yapay zekâ yardımcıdır ama kontrol etmek her zaman önemlidir."
             }
         ];
 
@@ -1087,7 +1089,7 @@
             ctx.fillStyle = '#fff';
             ctx.font = 'bold 36px Inter, sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('Hazir Ol!', canvas.width / 2, canvas.height / 2 - 5);
+            ctx.fillText('Hazır Ol!', canvas.width / 2, canvas.height / 2 - 5);
             ctx.restore();
 
             // Subtitle
@@ -1096,7 +1098,7 @@
             ctx.globalAlpha = subAlpha;
             ctx.fillStyle = 'rgba(255,255,255,0.5)';
             ctx.font = '16px Inter, sans-serif';
-            ctx.fillText('Quiz baslamak uzere...', canvas.width / 2, canvas.height / 2 + 30);
+            ctx.fillText('Quiz başlamak üzere...', canvas.width / 2, canvas.height / 2 + 30);
             ctx.restore();
 
             // Countdown
@@ -1105,7 +1107,7 @@
                 ctx.fillStyle = 'rgba(255,255,255,0.35)';
                 ctx.font = '600 13px Inter, sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText(`${remaining} saniye sonra basliyor`, canvas.width / 2, canvas.height - 30);
+                ctx.fillText(`${remaining} saniye sonra başlıyor`, canvas.width / 2, canvas.height - 30);
             }
 
             // Bottom progress bar
@@ -1135,7 +1137,7 @@
                 ctx.fillStyle = '#fff';
                 ctx.font = 'bold 30px Inter, sans-serif';
                 ctx.textAlign = 'center';
-                ctx.fillText('Hazirsan Quiz\'e Basla!', canvas.width / 2, canvas.height / 2);
+                ctx.fillText('Hazırsan Quiz\'e Basla!', canvas.width / 2, canvas.height / 2);
 
                 startBtn.style.display = 'inline-block';
             }
@@ -1258,7 +1260,7 @@
         function showFlash(type) {
             const flash = document.createElement('div');
             flash.className = `score-flash ${type}`;
-            flash.textContent = type === 'correct' ? '+1' : type === 'wrong' ? 'X' : 'Sure Doldu!';
+            flash.textContent = type === 'correct' ? '+1' : type === 'wrong' ? 'X' : 'Süre Doldu!';
             document.body.appendChild(flash);
             setTimeout(() => flash.remove(), 900);
         }
@@ -1333,12 +1335,12 @@
 
                 document.getElementById('result-icon').textContent = passed ? '🎉' : '😞';
                 document.getElementById('result-title').textContent =
-                    passed ? 'Tebrikler, Quiz\'i Gectin!' : 'Maalesef, Quiz\'i Gecemedin';
+                    passed ? 'Tebrikler, Quiz\'i Geçtin!' : 'Maalesef, Quiz\'i Geçemedin';
                 document.getElementById('result-title').style.color = passed ? '#2ecc71' : '#e74c3c';
                 document.getElementById('score-text').textContent =
-                    `Puanin: ${score} / ${questions.length} (${percentage}%)`;
+                    `Puanın: ${score} / ${questions.length} (${percentage}%)`;
                 document.getElementById('threshold-text').textContent =
-                    `Gecme siniri: ${QUIZ_PASS_SCORE}/${questions.length} dogru`;
+                    `Geçme sınırı: ${QUIZ_PASS_SCORE}/${questions.length} doğru`;
 
                 // Animated score bar
                 const barFill = document.getElementById('score-bar-fill');
@@ -1351,7 +1353,7 @@
                 const thLabel = document.getElementById('threshold-label');
                 thLine.style.left = `${thresholdPct}%`;
                 thLabel.style.left = `${thresholdPct}%`;
-                thLabel.textContent = `${QUIZ_PASS_SCORE}/${questions.length} gecme siniri`;
+                thLabel.textContent = `${QUIZ_PASS_SCORE}/${questions.length} geçme sınırı`;
 
                 // Confetti on pass
                 if (passed) launchConfetti();
@@ -1447,14 +1449,14 @@
             errorEl.style.display = 'none';
 
             if (promptText.length < 10) {
-                errorEl.textContent = 'Lutfen en az 10 karakter uzunlugunda bir prompt yaz.';
+                errorEl.textContent = 'Lütfen en az 10 karakter uzunluğunda bir prompt yaz.';
                 errorEl.style.display = 'block';
                 return;
             }
 
             const btn = document.getElementById('evaluate-btn');
             btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span>AI degerlendiriyor...';
+            btn.innerHTML = '<span class="spinner"></span>AI değerlendiriyor...';
 
             try {
                 const response = await fetch('/.netlify/functions/evaluate', {
@@ -1480,7 +1482,7 @@
                 errorEl.textContent = 'Hata: ' + err.message;
                 errorEl.style.display = 'block';
                 btn.disabled = false;
-                btn.textContent = 'Degerlendir';
+                btn.textContent = 'Değerlendir';
             }
         }
 
@@ -1521,17 +1523,17 @@
 
             // Score label
             const label = document.getElementById('prompt-score-label');
-            if (puan >= 80) label.textContent = 'Mukemmel prompt!';
-            else if (puan >= 60) label.textContent = 'Iyi prompt, biraz daha detay eklenebilir.';
+            if (puan >= 80) label.textContent = 'Mükemmel prompt!';
+            else if (puan >= 60) label.textContent = 'İyi prompt, biraz daha detay eklenebilir.';
             else if (puan >= 40) label.textContent = 'Ortalama, daha fazla detay gerekli.';
-            else label.textContent = 'Zayif prompt, cok daha fazla detay ekle.';
+            else label.textContent = 'Zayıf prompt, çok daha fazla detay ekle.';
 
             // Feedback text with breakdown
             let feedback = result.degerlendirme + '\n\n';
-            feedback += `Aciklik: ${result.aciklik}/25  |  `;
+            feedback += `Açıklık: ${result.aciklik}/25  |  `;
             feedback += `Detay: ${result.detay}/25  |  `;
-            feedback += `Amac: ${result.amac}/25  |  `;
-            feedback += `Yaraticilik: ${result.yaraticilik}/25`;
+            feedback += `Amaç: ${result.amac}/25  |  `;
+            feedback += `Yaratıcılık: ${result.yaraticilik}/25`;
 
             document.getElementById('ai-feedback').textContent = feedback;
 
@@ -1576,16 +1578,16 @@
 
                 if (bothPassed) {
                     document.getElementById('final-icon').textContent = '🏆';
-                    document.getElementById('final-title').textContent = 'Tebrikler, Basariyla Tamamladin!';
+                    document.getElementById('final-title').textContent = 'Tebrikler, Başarıyla Tamamladın!';
                     document.getElementById('final-title').style.color = '#2ecc71';
-                    document.getElementById('final-message').textContent = 'Hem quiz\'i hem de prompt challenge\'i basariyla gectin. Basvuru formuna asagidan ulasabilirsin.';
+                    document.getElementById('final-message').textContent = 'Hem quiz\'i hem de prompt challenge\'ı başarıyla geçtin. Başvuru formuna aşağıdan ulaşabilirsin.';
                     document.getElementById('apply-link-wrapper').style.display = 'block';
                     launchConfetti();
                 } else {
                     document.getElementById('final-icon').textContent = '😔';
-                    document.getElementById('final-title').textContent = 'Maalesef, Yeterli Degil';
+                    document.getElementById('final-title').textContent = 'Maalesef, Yeterli Değil';
                     document.getElementById('final-title').style.color = '#e74c3c';
-                    document.getElementById('final-message').textContent = 'Her iki asamayi da gecmen gerekiyor. Tekrar deneyebilirsin!';
+                    document.getElementById('final-message').textContent = 'Her iki aşamayı da geçmen gerekiyor. Tekrar deneyebilirsin!';
                     document.getElementById('apply-link-wrapper').style.display = 'none';
                 }
             }, 400);
@@ -1600,7 +1602,7 @@
             const btn = document.getElementById('evaluate-btn');
             btn.style.display = 'block';
             btn.disabled = false;
-            btn.textContent = 'Degerlendir';
+            btn.textContent = 'Değerlendir';
             document.getElementById('prompt-input').focus();
 
             // Reset circle
