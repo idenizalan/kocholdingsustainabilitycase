@@ -706,6 +706,86 @@
             display: none;
         }
 
+        /* --- FINAL SECTION --- */
+        #final-section {
+            display: none;
+            text-align: center;
+        }
+
+        #final-section h2 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            opacity: 0;
+            animation: fadeSlideIn 0.5s 0.3s forwards;
+        }
+
+        .final-message {
+            color: rgba(255,255,255,0.5);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 24px;
+            opacity: 0;
+            animation: fadeSlideIn 0.5s 0.5s forwards;
+        }
+
+        .final-status-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
+            opacity: 0;
+            animation: fadeSlideIn 0.5s 0.6s forwards;
+        }
+
+        .final-status-item {
+            padding: 14px 20px;
+            border-radius: 12px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .status-pass {
+            color: #2ecc71;
+            font-weight: 800;
+            margin-right: 8px;
+        }
+
+        .status-fail {
+            color: #e74c3c;
+            font-weight: 800;
+            margin-right: 8px;
+        }
+
+        .btn-apply {
+            display: inline-block;
+            padding: 16px 48px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: #fff;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 25px rgba(46, 204, 113, 0.4);
+            letter-spacing: 0.5px;
+            animation: btnPop 0.5s 0.8s forwards;
+            opacity: 0;
+        }
+
+        .btn-apply:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(46, 204, 113, 0.5);
+        }
+
+        #apply-link-wrapper {
+            margin: 24px 0;
+        }
+
         /* --- CONFETTI CANVAS --- */
         #confetti-canvas {
             position: fixed;
@@ -814,7 +894,23 @@
                 <div class="ai-feedback-label">AI Degerlendirmesi</div>
                 <div class="ai-feedback" id="ai-feedback"></div>
                 <button id="prompt-retry-btn" class="btn-secondary" onclick="retryPrompt()">Baska Bir Prompt Dene</button>
+                <button id="see-final-btn" class="btn-primary" style="display:none; margin-top:14px;" onclick="showFinalResult()">Sonucu Gor &rarr;</button>
             </div>
+        </div>
+
+        <!-- FINAL RESULT SECTION -->
+        <div id="final-section">
+            <div class="result-icon" id="final-icon"></div>
+            <h2 id="final-title"></h2>
+            <p class="final-message" id="final-message"></p>
+            <div class="final-status-list">
+                <div class="final-status-item" id="final-quiz-status"></div>
+                <div class="final-status-item" id="final-prompt-status"></div>
+            </div>
+            <div id="apply-link-wrapper" style="display:none;">
+                <a id="apply-link" class="btn-apply" href="https://YOUR-FORM-LINK-HERE.com" target="_blank">Basvuru Formuna Git</a>
+            </div>
+            <button class="btn-secondary" style="margin-top:20px;" onclick="location.reload()">Basidan Basla</button>
         </div>
 
     </div>
@@ -824,9 +920,14 @@
         // CONFIGURATION
         // ============================================================
 
-        const PASS_THRESHOLD = 70;
+        const QUIZ_PASS_SCORE = 7;            // need 7/10 correct to pass quiz
+        const PROMPT_PASS_SCORE = 70;         // need 70/100 to pass prompt challenge
+        const APPLY_FORM_URL = 'https://YOUR-FORM-LINK-HERE.com';  // <-- Replace with your form URL
         const TIME_PER_QUESTION = 15;
         // API key is stored securely on the server side
+
+        let quizPassed = false;
+        let promptScore = 0;
 
         const questions = [
             {
@@ -1227,16 +1328,17 @@
                 resultSection.classList.add('section');
 
                 const percentage = Math.round((score / questions.length) * 100);
-                const passed = percentage >= PASS_THRESHOLD;
+                const passed = score >= QUIZ_PASS_SCORE;
+                quizPassed = passed;
 
                 document.getElementById('result-icon').textContent = passed ? '🎉' : '😞';
                 document.getElementById('result-title').textContent =
-                    passed ? 'Tebrikler, Gectin!' : 'Maalesef, Gecemedin';
+                    passed ? 'Tebrikler, Quiz\'i Gectin!' : 'Maalesef, Quiz\'i Gecemedin';
                 document.getElementById('result-title').style.color = passed ? '#2ecc71' : '#e74c3c';
                 document.getElementById('score-text').textContent =
                     `Puanin: ${score} / ${questions.length} (${percentage}%)`;
                 document.getElementById('threshold-text').textContent =
-                    `Gecme siniri: ${PASS_THRESHOLD}%`;
+                    `Gecme siniri: ${QUIZ_PASS_SCORE}/${questions.length} dogru`;
 
                 // Animated score bar
                 const barFill = document.getElementById('score-bar-fill');
@@ -1244,11 +1346,12 @@
                 setTimeout(() => { barFill.style.width = `${percentage}%`; }, 50);
 
                 // Threshold marker
+                const thresholdPct = (QUIZ_PASS_SCORE / questions.length) * 100;
                 const thLine = document.getElementById('threshold-line');
                 const thLabel = document.getElementById('threshold-label');
-                thLine.style.left = `${PASS_THRESHOLD}%`;
-                thLabel.style.left = `${PASS_THRESHOLD}%`;
-                thLabel.textContent = `${PASS_THRESHOLD}% gecme siniri`;
+                thLine.style.left = `${thresholdPct}%`;
+                thLabel.style.left = `${thresholdPct}%`;
+                thLabel.textContent = `${QUIZ_PASS_SCORE}/${questions.length} gecme siniri`;
 
                 // Confetti on pass
                 if (passed) launchConfetti();
@@ -1432,8 +1535,60 @@
 
             document.getElementById('ai-feedback').textContent = feedback;
 
+            // Track prompt pass
+            promptScore = puan;
+            const promptPassed = puan >= PROMPT_PASS_SCORE;
+
             // Confetti if great prompt
-            if (puan >= 80) launchConfetti();
+            if (promptPassed) launchConfetti();
+
+            // Show "see final result" button
+            const finalBtn = document.getElementById('see-final-btn');
+            finalBtn.style.display = 'block';
+        }
+
+        function showFinalResult() {
+            const promptSection = document.getElementById('prompt-section');
+            promptSection.style.opacity = '0';
+            promptSection.style.transform = 'translateY(-20px)';
+            promptSection.style.transition = 'all 0.4s ease';
+
+            setTimeout(() => {
+                promptSection.style.display = 'none';
+                const finalSection = document.getElementById('final-section');
+                finalSection.style.display = 'block';
+                finalSection.classList.add('section');
+
+                const promptPassed = promptScore >= PROMPT_PASS_SCORE;
+                const bothPassed = quizPassed && promptPassed;
+
+                // Quiz status
+                const quizStatus = document.getElementById('final-quiz-status');
+                quizStatus.innerHTML = quizPassed
+                    ? '<span class="status-pass">&#10003;</span> Quiz: Gecti'
+                    : '<span class="status-fail">&#10007;</span> Quiz: Gecemedi';
+
+                // Prompt status
+                const promptStatus = document.getElementById('final-prompt-status');
+                promptStatus.innerHTML = promptPassed
+                    ? `<span class="status-pass">&#10003;</span> Prompt Challenge: ${promptScore}/100`
+                    : `<span class="status-fail">&#10007;</span> Prompt Challenge: ${promptScore}/100`;
+
+                if (bothPassed) {
+                    document.getElementById('final-icon').textContent = '🏆';
+                    document.getElementById('final-title').textContent = 'Tebrikler, Basariyla Tamamladin!';
+                    document.getElementById('final-title').style.color = '#2ecc71';
+                    document.getElementById('final-message').textContent = 'Hem quiz\'i hem de prompt challenge\'i basariyla gectin. Basvuru formuna asagidan ulasabilirsin.';
+                    document.getElementById('apply-link-wrapper').style.display = 'block';
+                    launchConfetti();
+                } else {
+                    document.getElementById('final-icon').textContent = '😔';
+                    document.getElementById('final-title').textContent = 'Maalesef, Yeterli Degil';
+                    document.getElementById('final-title').style.color = '#e74c3c';
+                    document.getElementById('final-message').textContent = 'Her iki asamayi da gecmen gerekiyor. Tekrar deneyebilirsin!';
+                    document.getElementById('apply-link-wrapper').style.display = 'none';
+                }
+            }, 400);
         }
 
         function retryPrompt() {
@@ -1441,6 +1596,7 @@
             document.getElementById('char-count').textContent = '0';
             document.getElementById('prompt-result').style.display = 'none';
             document.getElementById('prompt-error').style.display = 'none';
+            document.getElementById('see-final-btn').style.display = 'none';
             const btn = document.getElementById('evaluate-btn');
             btn.style.display = 'block';
             btn.disabled = false;
